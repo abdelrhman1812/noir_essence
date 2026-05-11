@@ -1,0 +1,14 @@
+@theme {
+  /* Primary - Gold */
+  --color-primary-950: #1a1100;
+  --color-primary-900: #2e1e00;
+  --color-primary-800: #4a3000;
+  --color-primary-700: #6b4500;
+  --color-primary-600: #8f5f00;
+  --color-primary-500: #b27a40;
+  --color-primary-400: #c9a84c;
+  --color-primary-300: #d4b96a;
+  --color-primary-200: #e1cfa0;
+  --color-primary-100: #f0e5cc;
+  --color-primary-50: #faf6ee;
+}
