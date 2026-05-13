@@ -10,6 +10,30 @@ import {
 import { type FieldValues } from "react-hook-form";
 import type { InputProps } from "./Input.type";
 
+const SIZES_CONFIG = {
+  sm: {
+    input: "h-8 text-sm",
+    paddingWithLeftIcon: "pl-9  pr-3",
+    paddingWithRightIcon: "pl-3  pr-9",
+    paddingDefault: "px-3",
+    icon: "left-2.5",
+  },
+  md: {
+    input: "h-10 text-sm",
+    paddingWithLeftIcon: "pl-11 pr-3",
+    paddingWithRightIcon: "pl-3  pr-11",
+    paddingDefault: "px-3",
+    icon: "left-3",
+  },
+  lg: {
+    input: "h-12 text-base",
+    paddingWithLeftIcon: "pl-13 pr-4",
+    paddingWithRightIcon: "pl-4  pr-13",
+    paddingDefault: "px-4",
+    icon: "left-4",
+  },
+};
+
 export const Input = <T extends FieldValues = FieldValues>({
   // ── React Hook Form ──────────────────────────────────────────
   register,
@@ -65,37 +89,11 @@ export const Input = <T extends FieldValues = FieldValues>({
   const inputId = id || (`${name}-${reactId}` as string);
 
   // ── Size tokens ───────────────────────────────────────────────
-  const SIZES_CONFIG = {
-    sm: {
-      input: "h-8 text-sm",
-      padding: Icon
-        ? iconPosition === "left"
-          ? "pl-9  pr-3"
-          : "pl-3  pr-9"
-        : "px-3",
-      icon: "left-2.5",
-    },
-    md: {
-      input: "h-10 text-sm",
-      padding: Icon
-        ? iconPosition === "left"
-          ? "pl-11 pr-3"
-          : "pl-3  pr-11"
-        : "px-3",
-      icon: "left-3",
-    },
-    lg: {
-      input: "h-12 text-base",
-      padding: Icon
-        ? iconPosition === "left"
-          ? "pl-13 pr-4"
-          : "pl-4  pr-13"
-        : "px-4",
-      icon: "left-4",
-    },
-  };
+  const currentSizeConfig = SIZES_CONFIG[size as keyof typeof SIZES_CONFIG] || SIZES_CONFIG.md;
 
-  const currentSizeConfig = SIZES_CONFIG[size] || SIZES_CONFIG.md;
+  const resolvedPadding = Icon 
+    ? (iconPosition === "left" ? currentSizeConfig.paddingWithLeftIcon : currentSizeConfig.paddingWithRightIcon)
+    : currentSizeConfig.paddingDefault;
 
   const iconPos =
     iconPosition === "left"
@@ -147,7 +145,7 @@ export const Input = <T extends FieldValues = FieldValues>({
     "disabled:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-60",
     errors ? "border-red-500" : "border-[#EEEEF0]",
     currentSizeConfig.input,
-    currentSizeConfig.padding,
+    resolvedPadding,
     inputClassName,
   );
 

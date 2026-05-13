@@ -1,7 +1,7 @@
 import { routing } from "@/src/i18n/routing";
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { setRequestLocale, getMessages } from "next-intl/server";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../styles/globals.css";
@@ -13,7 +13,8 @@ type Props = {
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
   variable: "--font-sans",
   subsets: ["arabic", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default async function RootLayout({ children, params }: Props) {
     notFound();
   }
   setRequestLocale(locale);
+  const messages = await getMessages();
 
   return (
     <html
@@ -35,7 +37,7 @@ export default async function RootLayout({ children, params }: Props) {
       className={`${ibmPlexSansArabic.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
       </body>
     </html>
   );
